@@ -1,18 +1,16 @@
 <?php 
 
-//Databse data 
+// Databse data 
 $db = "Path to your Database";
 $sc = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" . $db . ";"; //Set this up depending on your needs
 // DB actual connection 
 $db_conn = new COM('ADODB.Connection') or exit('Cannot start ADO.');
 $db_conn->open($sc);
 
-
-
-
-/**********VARIABLES*****************/
-$MAIN_DOMAIN = "https://www.insertyourdomainhere.com"; 	//Set here the main Domain 
-$TARGET_DIR = $_SERVER['DOCUMENT_ROOT'] . "\\";			//Set here the directory where the sitemap file will be created 
+// Set here the main Domain 
+$MAIN_DOMAIN = "https://www.insertyourdomainhere.com";
+// Set here the directory where the sitemap file will be created 
+$TARGET_DIR = $_SERVER['DOCUMENT_ROOT'] . "\\";			
 $SITEMAP_HEADER = '<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"  xmlns:xhtml="http://www.w3.org/1999/xhtml" >
 	<url>
@@ -46,22 +44,19 @@ $shorturl_en = '';
 $shorturl_fr = '';
 $shorturl_de = '';
 $shorturl_es = '';
-/**********!VARIABLES!*****************/
+
 
 
 /*
-	You'll have to change the section below depending on how your DB table is organized. 
-	I'll leave my example, i hope it can be helpful.
+ * You'll have to change the section below depending on how your DB table is organized. 
+ * I'll leave my example, i hope it can be helpful.
 */
 
 /**********SITEMAP FILE GENERATION*****************/
 $sitemap_txt = $SITEMAP_HEADER;
 
-
-
 $sql = "SELECT DISTINCT shorturls.finalurl FROM shorturls;";
 $rs = $db_conn->execute($sql);
-
 
 while(!$rs->EOF){
 	
@@ -112,11 +107,8 @@ while(!$rs->EOF){
 	$rs->MoveNext();
 }
 	
-
 $sitemap_txt .= $SITEMAP_FOOTER;
-
 /************!SITEMAP FILE GENERATION!*****************/
-
 
 
 // Where the XML sitemap file is actually created and placed
@@ -125,8 +117,6 @@ fwrite($current_file, $sitemap_txt);
 fclose($current_file);
 
 echo "SITEMAP GENERATED - 200";
-
-
 
 
 
@@ -192,9 +182,4 @@ class Url_block {
 		</url>';
 		
 	}
-
-	
 } 
-
-
-
